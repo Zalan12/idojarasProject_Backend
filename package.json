@@ -1,0 +1,29 @@
+{
+  "name": "idojarasproject_backend",
+  "version": "1.0.0",
+  "description": "Az időjárás webes app backendje",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zalan12/idojarasProject_Backend.git"
+  },
+  "author": "Farkas Zalán",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zalan12/idojarasProject_Backend/issues"
+  },
+  "homepage": "https://github.com/Zalan12/idojarasProject_Backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

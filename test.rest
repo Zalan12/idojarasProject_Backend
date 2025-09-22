@@ -1,0 +1,32 @@
+### POST new user
+
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "nev":"Ez egy teszt"
+}
+
+### GET all users
+
+GET http://localhost:3000/users
+Content-Type: application/json
+
+### GET user by id
+
+GET http://localhost:3000/users/1
+Content-Type: application/json
+
+### DELETE user by id
+
+DELETE http://localhost:3000/users/2
+Content-Type: application/json
+
+### PATCH user by id
+
+PATCH http://localhost:3000/users/1
+Content-Type: application/json
+
+{
+    "nev":"Paszti"
+}
