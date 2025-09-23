@@ -21,7 +21,21 @@ app.post('/users',(req,res)=>{
     data.id=getNextID();
     users.push(data);
     saveUsers();
-    res.send('Sikeres regisztráció')
+    res.send({msg:'Sikeres regisztráció'})
+})
+
+//post logged USER
+
+app.post('/users/login',(req,res)=>{
+    let {email,password}=req.body;
+    let loggedUser={};
+    users.forEach(user=>{
+        if (user.email==email && user.password==password) {
+            loggedUser=user;
+            return
+        }
+    })
+    res.send(loggedUser)
 })
 
 //Összes felhasználó kiíratása (dev)
@@ -63,7 +77,7 @@ app.patch('/users/:id',(req,res)=>{
 
     if(idx>-1)
         {
-            if(data.nev)users[idx].nev=data.nev;
+            if(data.name)users[idx].name=data.name;
             saveUsers();
             return res.send({msg:"A felhasználó módosítva lett!"})
         }

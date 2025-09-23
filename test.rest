@@ -24,9 +24,9 @@ Content-Type: application/json
 
 ### PATCH user by id
 
-PATCH http://localhost:3000/users/1
+PATCH http://localhost:3000/users/2
 Content-Type: application/json
 
 {
-    "nev":"Paszti"
+    "name":"Paszti"
 }
