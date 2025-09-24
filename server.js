@@ -10,8 +10,10 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
 let users=[];
+let weathers=[];
 
 const USERSFILE=path.join(__dirname,'users.json')
+const WEATHERSFILE=path.join(__dirname,'weather.json')
 
 //---------------------USERS-------------------------
 
@@ -99,6 +101,97 @@ app.patch('/users/jelszovalt/:id',(req,res)=>{
     }
 })
 loadUsers()
+
+//-------------------IDOADATOK--------------------
+
+//POST new data
+app.post('/weather',(req,res)=>{
+    let data=req.body;
+    data.wid=getNextWID();
+    weathers.push(data);
+    saveWeather();
+    res.send({msg:'Sikeres regisztráció'})
+})
+
+//Összes adat kiíratása
+app.get('/weather',(req,res)=>{
+    res.send(weathers);
+})
+
+//GET osszes adat by felhasználó
+app.get('/weather/user/:uid',(req,res)=>{
+    let userWeather=[];
+    let uid=req.params.uid;
+    for(let i=0; i<weathers.length;i++)
+    {
+        if(weathers[i].uid==uid)
+        {
+            userWeather.push(weathers[i])
+        }
+    }
+    res.send(userWeather)
+
+})
+
+//get 1 adat by wID
+
+app.get('/weather/:id',(req,res)=>{
+    let id=req.params.id;
+    let idx=weathers.findIndex(weather=>weather.wid==id);
+
+    if(idx>-1)
+    {
+        return res.send(weathers[idx])
+    }
+    return res.status(400).send({msg: 'Nincs ilyen adat'})
+})
+
+
+//DELETE 1 adat by wID
+
+app.delete('/weather/:id',(req,res)=>{
+    let id=req.params.id;
+    let idx=weathers.findIndex(weather=>weather.wid==id);
+    weathers.splice(idx,1);
+    saveWeather();
+    return res.send({msg: 'Az adat sikeresen törölve lett!'})
+})
+
+//DELETE összes adat by uID
+app.delete('/weather/user/:uid', (req,res)=>{
+    let uid=req.params.uid;
+    for(let i=0; i<weathers.length;i++)
+    {
+        if(weathers[i].uid==uid)
+        {
+            weathers.splice(i,1)
+            i--
+        }
+    }
+    saveWeather();
+    res.send("Sikeresen törölve")
+})
+
+//PATCH adat by wID
+app.patch('/weather/:id',(req,res)=>{
+    let id=req.params.id;
+    let data=req.body;
+    let idx=weathers.findIndex(weather=>weather.wid==id)
+
+    if(idx>-1)
+    {
+        if(data.datum)weathers[idx].datum=data.datum;
+        if(data.maxTemp)weathers[idx].maxTemp=data.maxTemp;
+        if(data.minTemp)weathers[idx].minTemp=data.minTemp;
+        if(data.weatherType)weathers[idx].weatherType=data.weatherType;
+        saveWeather();
+        return res.send({msg: "Sikeres módosítás!"})
+    }
+    return res.status(400).send({msg:"Nincs ilyen azonosítóval ellátott adat!"})
+})
+
+
+loadWeather()
 app.listen(3000);
 
 //-------------------FÜGGVÉNYEK-------------------
@@ -145,4 +238,48 @@ function getNextID()
     }
 
     return users[maxIndex].id+1;
+}
+
+function getNextWID()
+{
+    let NextWID=1;
+    if(weathers.length==0)
+    {
+        return NextWID
+    }
+    let maxIndex=0;
+    for(let i=0;i<weathers.length;i++)
+    {
+        if(weathers[i].wid>weathers[maxIndex].wid)
+        {
+            maxIndex=i;
+        }
+    }
+
+    return weathers[maxIndex].wid+1;
+}
+
+function saveWeather()
+{
+    fs.writeFileSync(WEATHERSFILE,JSON.stringify(weathers))
+}
+
+function loadWeather()
+{
+    if(fs.existsSync(WEATHERSFILE))
+        {
+            const raw=fs.readFileSync(WEATHERSFILE);
+            try
+            {
+                weathers=JSON.parse(raw);
+            }
+
+            catch(err){
+                console.log("hiba! ",err)
+                weathers=[];
+            }
+        }
+    else{
+        saveWeather()
+    }
 }

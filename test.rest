@@ -30,3 +30,50 @@ Content-Type: application/json
 {
     "name":"Paszti"
 }
+
+### POST new weatherData
+
+POST http://localhost:3000/weather
+Content-Type: application/json
+
+{
+    "datum":"2022-03-07",
+    "minTemp":6,
+    "maxTemp":17,
+    "weatherType":"felhos",
+    "uid":2
+    
+}
+
+### GET all data
+
+GET http://localhost:3000/weather
+Content-Type:  application/json
+
+
+### GET all data by userID
+
+GET http://localhost:3000/weather/user/2
+Content-Type:  application/json
+
+### GET one data via ID
+GET http://localhost:3000/weather/3
+Content-Type:  application/json
+
+### DELETE one data via ID
+
+DELETE http://localhost:3000/weather/3
+Content-Type: application/json
+
+### DELETE all data via uID
+
+DELETE http://localhost:3000/weather/user/2
+Content-Type: application/json
+
+###PATCH data via wID
+PATCH http://localhost:3000/weather/2
+Content-Type: application/json
+
+{
+    "maxTemp":30
+}
