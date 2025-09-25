@@ -1,3 +1,9 @@
+### GET / route
+
+GET http://localhost:3000
+Content-Type: application/json
+
+
 ### POST new user
 
 POST http://localhost:3000/users
@@ -28,7 +34,7 @@ PATCH http://localhost:3000/users/2
 Content-Type: application/json
 
 {
-    "name":"Paszti"
+    "name":"Laszti"
 }
 
 ### POST new weatherData
