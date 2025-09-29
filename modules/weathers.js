@@ -55,7 +55,7 @@ router.delete('/:id',(req,res)=>{
     let id=req.params.id;
     let idx=weathers.findIndex(weather=>weather.wid==id);
     weathers.splice(idx,1);
-    saveWeather();
+    saveWeather(weathers);
     return res.send({msg: 'Az adat sikeresen törölve lett!'})
 })
 
