@@ -8,7 +8,7 @@ router.post('/',(req,res)=>{
     let data=req.body;
     data.id=getNextID();
     users.push(data);
-    saveUsers();
+    saveUsers(users);
     res.send({msg:'Sikeres regisztráció'})
 })
 
@@ -51,7 +51,7 @@ router.delete('/:id',(req,res)=>{
     if(idx>-1)
         {
             users.splice(idx,1)
-            saveUsers();
+            saveUsers(users);
             return res.send("A felhasználó sikeresen törölve lett")
         }
     return res.status(400).send({msg:"Nincs ilyen id-s felhasználó"})
@@ -66,7 +66,8 @@ router.patch('/:id',(req,res)=>{
     if(idx>-1)
         {
             if(data.name)users[idx].name=data.name;
-            saveUsers();
+            if(data.email)users[idx].email=data.email;
+            saveUsers(users);
             return res.send({msg:"A felhasználó módosítva lett!"})
         }
     return res.status(400).send({msg:"Nincs ilyen id-s felhasználó"})
@@ -81,7 +82,7 @@ router.patch('/jelszovalt/:id',(req,res)=>{
     {
         if(data.password && data.newPassword){
             users[idx].password=data.newPassword;
-            saveUsers();
+            saveUsers(users);
             return res.send({msg:"A felhasznaló jelszava modositva lett"})
         }
     }

@@ -34,9 +34,9 @@ function loadUsers()
     }
 }
 
-function saveUsers()
+function saveUsers(user)
 {
-    fs.writeFileSync(USERSFILE,JSON.stringify(users))
+    fs.writeFileSync(USERSFILE,JSON.stringify(user))
 }
 
 function getNextID()
@@ -77,9 +77,9 @@ function getNextWID()
     return weathers[maxIndex].wid+1;
 }
 
-function saveWeather()
+function saveWeather(weather)
 {
-    fs.writeFileSync(WEATHERSFILE,JSON.stringify(weathers))
+    fs.writeFileSync(WEATHERSFILE,JSON.stringify(weather))
 }
 
 function loadWeather()

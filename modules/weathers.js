@@ -11,7 +11,7 @@ router.post('/',(req,res)=>{
     data.wid=getNextWID();
     weathers.push(data);
     console.log(data.datum)
-    saveWeather();
+    saveWeather(weathers);
     res.send({msg:'Sikeres regisztráció'})
 })
 
@@ -70,7 +70,7 @@ router.delete('/user/:uid', (req,res)=>{
             i--
         }
     }
-    saveWeather();
+    saveWeather(weathers);
     res.send("Sikeresen törölve")
 })
 
@@ -86,7 +86,7 @@ router.patch('/:id',(req,res)=>{
         if(data.maxTemp)weathers[idx].maxTemp=data.maxTemp;
         if(data.minTemp)weathers[idx].minTemp=data.minTemp;
         if(data.weatherType)weathers[idx].weatherType=data.weatherType;
-        saveWeather();
+        saveWeather(weathers);
         return res.send({msg: "Sikeres módosítás!"})
     }
     return res.status(400).send({msg:"Nincs ilyen azonosítóval ellátott adat!"})
